@@ -72,6 +72,9 @@ Ticker checkWiFi;
 long prevMillis = 0;
 long interval = 1000;
 
+long prevMillisTemp = 0;
+long intervalTemp = 750;
+
 long prevMillisMinute = 0;
 long intervalMinute = 60000;
 
@@ -107,6 +110,7 @@ void setup() {
   pinMode(TEMP3_PIN, OUTPUT);
 
   sensors.begin();
+  sensors.setWaitForConversion(false);
   sensors.setResolution(SENSORS_RES);
   sensors.requestTemperatures();
 
@@ -194,10 +198,18 @@ void loop() {
 
 
   unsigned long currMillis = millis();
+  
+  if (currMillis - prevMillisTemp > intervalTemp ) {
+    prevMillisTemp = currMillis;
+
+    requestTemp();
+
+  }
+
+  
   if (currMillis - prevMillis > interval) {
     prevMillis = currMillis;
 
-    requestTemp();
     controlTemp();
     drawScreen();
 
