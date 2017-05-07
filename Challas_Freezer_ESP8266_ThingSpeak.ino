@@ -110,9 +110,10 @@ void setup() {
   pinMode(TEMP3_PIN, OUTPUT);
 
   sensors.begin();
-  sensors.setWaitForConversion(false);
   sensors.setResolution(SENSORS_RES);
   sensors.requestTemperatures();
+  sensors.setWaitForConversion(false);
+
 
   if (TEMP_SCALE == "C") {
     temp1Read = sensors.getTempCByIndex(0); temp1Max = temp1Min = temp1Read;
