@@ -4,7 +4,6 @@
 #include <ESP8266WebServer.h>
 #include <ESP8266HTTPUpdateServer.h>
 #include <ESP8266mDNS.h>
-#include <Ticker.h>
 
 #include <SPI.h>
 #include <OneWire.h>
@@ -64,8 +63,6 @@ ESP8266WebServer httpServer(80);
 ESP8266HTTPUpdateServer httpUpdater;
 
 WiFiClientSecure httpsClient;
-
-Ticker checkWiFi;
 
 
 //Timer
@@ -143,8 +140,7 @@ void setup() {
   WiFi.begin(ssid, password);
   WiFi.softAP(host, softAPPassword);
 
-  checkWiFi.attach(10, wifiCheck);
-
+  
   MDNS.begin(host);
   MDNS.addService("http", "tcp", 80);
 
@@ -183,16 +179,6 @@ void setup() {
 
 }
 
-
-void wifiCheck() {
-
-  checkWiFi.detach();
-  
-  if (WiFi.status() != WL_CONNECTED) {
-    WiFi.mode(WIFI_AP); 
-  }
-
-}
 
 
 void loop() {
